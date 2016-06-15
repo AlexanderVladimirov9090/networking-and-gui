@@ -1,11 +1,17 @@
 package com.cloway.downloadagent;
 
 import org.jmock.Expectations;
+<<<<<<< HEAD
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+=======
+import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Rule;
+import org.junit.Test;
+>>>>>>> 279caa4... Main Thread of the server now only accepts Client and makes two threads for reading and writing.
 import java.net.URL;
 
 /**
@@ -33,4 +39,8 @@ public class Percentage {
 
         downloadAgent.download("file://"+url.getFile(), download.getPath());
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 279caa4... Main Thread of the server now only accepts Client and makes two threads for reading and writing.

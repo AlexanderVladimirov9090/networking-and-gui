@@ -1,5 +1,9 @@
 package com.cloway.downloadagent;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 279caa4... Main Thread of the server now only accepts Client and makes two threads for reading and writing.
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -59,7 +63,10 @@ public class DownloadAgent {
     }
 
     private int getPercentage(long sizeOfFile) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 279caa4... Main Thread of the server now only accepts Client and makes two threads for reading and writing.
         return (int) (sizeOfFile / 100);
     }
 }

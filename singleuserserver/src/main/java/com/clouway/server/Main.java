@@ -9,6 +9,10 @@ import java.net.ServerSocket;
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
  */
+<<<<<<< HEAD
+=======
+
+>>>>>>> 279caa4... Main Thread of the server now only accepts Client and makes two threads for reading and writing.
 public class Main {
     public static void main(String[] args) {
         try {
@@ -16,7 +20,11 @@ public class Main {
             GreetingServer greetingServer = new GreetingServer(new ServerSocket(6000));
             Thread thread = new Thread(greetingServer);
             thread.start();
+<<<<<<< HEAD
         } catch (IOException e) {
+=======
+      } catch (IOException e) {
+>>>>>>> 279caa4... Main Thread of the server now only accepts Client and makes two threads for reading and writing.
             e.printStackTrace();
         }
     }
