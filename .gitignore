@@ -13,8 +13,11 @@
 .idea/tasks.xml
 .idea/dictionaries
 .idea/vcs.xml
+.idea/misc.xml
 .idea/jsLibraryMappings.xml
-
+.gradle
+build
+.idea/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 */.gradle
