@@ -12,8 +12,8 @@ import java.net.UnknownHostException;
 public class Main {
     public static void main(String[] args) {
         try {
-            Client echoClient = new Client(InetAddress.getLocalHost(), 6000);
-            echoClient.connect();
+            Client client = new Client(InetAddress.getLocalHost(), 6000);
+            client.connect();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

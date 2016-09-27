@@ -16,31 +16,36 @@ import java.util.Date;
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
  */
-class EchoServer {
+class GreetingServer {
     private final ServerSocket serverSocket;
 
-    EchoServer(ServerSocket serverSocket) {
+    GreetingServer(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
 
+
     void accept() {
         try {
+            System.out.println("Server started:");
             Socket clientSocket = serverSocket.accept();
             respond(clientSocket);
+            System.out.println("Server stopped!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void respond(Socket clientSocket) throws IOException {
-       // try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+    private void respond(Socket clientSocket) {
+        try {
             PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
             printWriter.println("Hello! " + clock());
+
             clientSocket.close();
-       // } catch (IOException e1) {
-       //     e1.printStackTrace();
-        //}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private String clock() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

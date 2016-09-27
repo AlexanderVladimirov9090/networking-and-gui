@@ -1,4 +1,4 @@
-package com.clouway.echoclient;
+package com.clouway.server;
 
 import org.junit.Test;
 
@@ -17,34 +17,30 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Created by clouway on 15.09.16.
- *
- * @author Alexander Vladimirov
- *         <alexandervladimirov1902@gmail.com>
+ * Created by clouway on 26.09.16.
  */
-public class ClientConnection {
+public class GreetingServerTest {
 
     @Test
     public void happyPath() throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String expected = "Server Response: Hello! " + dateFormat.format(new Date())+"\n";
-        Server server = new Server(new ServerSocket(6000));
-        Thread serverThread = new Thread(server);
 
-        serverThread.start();
+        String expected = "Server started:\n" + "Server stopped!\n";
+        GreetingServer greetingServer = new GreetingServer(new ServerSocket(6060));
 
-        Client client = new Client(InetAddress.getLocalHost(), 6000);
+        Client client = new Client(InetAddress.getLocalHost(), 6060);
+        Thread clientThread = new Thread(client);
+        clientThread.start();
 
         PrintStream originalOutput = new PrintStream(System.out);
         OutputStream outStream = new ByteArrayOutputStream();
         PrintStream prStream = new PrintStream(outStream);
         System.setOut(prStream);
-
-        client.connect();
+        greetingServer.accept();
         prStream.close();
 
         System.setOut(originalOutput);
         String actual = outStream.toString();
         assertThat(actual, is(equalTo(expected)));
     }
+
 }

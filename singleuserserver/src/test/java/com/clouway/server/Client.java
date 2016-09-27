@@ -1,4 +1,4 @@
-package com.clouway.echoclient;
+package com.clouway.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.Scanner;
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
  */
-class Client{
+class Client implements Runnable {
     private final InetAddress inetAddress;
     private final int port;
 
@@ -24,8 +24,14 @@ class Client{
     }
 
 
+    @Override
+    public void run() {
+        while (true){
+            connect();
+        }
+    }
 
-   void connect() {
+    private void connect() {
         try (Socket clientSocket = new Socket(inetAddress, port)) {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));

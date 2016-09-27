@@ -9,13 +9,11 @@ import java.net.ServerSocket;
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
  */
-public class Main{
+public class Main {
     public static void main(String[] args) {
         try {
-            EchoServer echoServer = new EchoServer(new ServerSocket(6000));
-            System.out.println("Server Running.");
-            echoServer.accept();
-            System.out.println("Server Closed");
+            GreetingServer greetingServer = new GreetingServer(new ServerSocket(6000));
+            greetingServer.accept();
         } catch (IOException e) {
             e.printStackTrace();
         }
