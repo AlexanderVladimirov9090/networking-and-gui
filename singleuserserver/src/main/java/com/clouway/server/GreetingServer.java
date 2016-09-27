@@ -26,11 +26,10 @@ class GreetingServer {
 
     void accept() {
         try {
-            System.out.println("Server started:");
+            System.out.println("Hello! " + clock());
             Socket clientSocket = serverSocket.accept();
             respond(clientSocket);
-            System.out.println("Server stopped!");
-        } catch (IOException e) {
+                 } catch (IOException e) {
             e.printStackTrace();
         }
     }

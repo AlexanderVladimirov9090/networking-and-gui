@@ -23,18 +23,18 @@ public class GreetingServerTest {
 
     @Test
     public void happyPath() throws IOException {
-
-        String expected = "Server started:\n" + "Server stopped!\n";
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String expected = "Hello! " + dateFormat.format(new Date())+"\n";
         GreetingServer greetingServer = new GreetingServer(new ServerSocket(6060));
 
         Client client = new Client(InetAddress.getLocalHost(), 6060);
         Thread clientThread = new Thread(client);
-        clientThread.start();
 
         PrintStream originalOutput = new PrintStream(System.out);
         OutputStream outStream = new ByteArrayOutputStream();
         PrintStream prStream = new PrintStream(outStream);
         System.setOut(prStream);
+        clientThread.start();
         greetingServer.accept();
         prStream.close();
 
