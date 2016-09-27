@@ -16,7 +16,7 @@ import java.util.Date;
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
  */
-class GreetingServer {
+class GreetingServer implements Runnable {
     private final ServerSocket serverSocket;
 
     GreetingServer(ServerSocket serverSocket) {
@@ -24,15 +24,22 @@ class GreetingServer {
     }
 
 
-    void accept() {
-        try {
-            System.out.println("Hello! " + clock());
-            Socket clientSocket = serverSocket.accept();
-            respond(clientSocket);
-                 } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void run() {
+        accept();
     }
+
+    private void accept() {
+       while (true) {
+           try {
+               Socket clientSocket = serverSocket.accept();
+               respond(clientSocket);
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+       }
+    }
+
 
     private void respond(Socket clientSocket) {
         try {
@@ -44,7 +51,6 @@ class GreetingServer {
             e.printStackTrace();
         }
     }
-
 
     private String clock() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

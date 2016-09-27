@@ -2,15 +2,14 @@ package com.clouway.server;
 
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,25 +21,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GreetingServerTest {
 
     @Test
-    public void happyPath() throws IOException {
+    public void happyPath() throws IOException, InterruptedException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String expected = "Hello! " + dateFormat.format(new Date())+"\n";
+        String expected = "nullHello! " + dateFormat.format(new Date());
         GreetingServer greetingServer = new GreetingServer(new ServerSocket(6060));
-
-        Client client = new Client(InetAddress.getLocalHost(), 6060);
-        Thread clientThread = new Thread(client);
-
-        PrintStream originalOutput = new PrintStream(System.out);
-        OutputStream outStream = new ByteArrayOutputStream();
-        PrintStream prStream = new PrintStream(outStream);
-        System.setOut(prStream);
-        clientThread.start();
-        greetingServer.accept();
-        prStream.close();
-
-        System.setOut(originalOutput);
-        String actual = outStream.toString();
+        Thread serverTread = new Thread(greetingServer);
+        serverTread.start();
+        Socket clientSocket = new Socket(InetAddress.getLocalHost(), 6060);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        String response;
+        String actual = null;
+        while ((response = bufferedReader.readLine()) != null) {
+            actual += response;
+        }
         assertThat(actual, is(equalTo(expected)));
     }
-
 }

@@ -13,7 +13,8 @@ public class Main {
     public static void main(String[] args) {
         try {
             GreetingServer greetingServer = new GreetingServer(new ServerSocket(6000));
-            greetingServer.accept();
+            Thread thread = new Thread(greetingServer);
+            thread.start();
         } catch (IOException e) {
             e.printStackTrace();
         }

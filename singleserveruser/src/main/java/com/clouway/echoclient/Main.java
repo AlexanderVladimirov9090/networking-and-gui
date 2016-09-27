@@ -13,7 +13,8 @@ public class Main {
     public static void main(String[] args) {
         try {
             Client client = new Client(InetAddress.getLocalHost(), 6000);
-            client.connect();
+            Thread clientThread = new Thread(client);
+            clientThread.start();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
