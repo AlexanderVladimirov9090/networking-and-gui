@@ -47,11 +47,11 @@ class Client implements Runnable {
         String response;
 
         while ((response = bufferedReader.readLine()) != null) {
-                print(response);
+                display(response);
         }
     }
 
-    private void print(String response){
+    private void display(String response){
         System.out.println("Server Response: " + response);
     }
 }
