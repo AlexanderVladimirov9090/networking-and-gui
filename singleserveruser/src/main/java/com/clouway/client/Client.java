@@ -3,10 +3,8 @@ package com.clouway.client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
  * Created by clouway on 15.09.16.
@@ -14,7 +12,7 @@ import java.util.Scanner;
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
  */
-class Client implements Runnable{
+class Client implements Runnable {
     private final InetAddress inetAddress;
     private final int port;
 
@@ -23,32 +21,33 @@ class Client implements Runnable{
         this.port = port;
     }
 
-
-
     @Override
     public void run() {
         connect();
     }
 
-   private void connect() {
+    /**
+     * Connects to given server.
+     */
+    private void connect() {
         try (Socket clientSocket = new Socket(inetAddress, port)) {
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            Scanner scanner = new Scanner(System.in);
-            listen(out, bufferedReader, scanner);
+            listen(bufferedReader);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void listen(PrintWriter out, BufferedReader bufferedReader, Scanner scanner) {
+    /**
+     * Listens to server response and prints in to the console.
+     * @param bufferedReader
+     * @throws IOException
+     */
+    private void listen(BufferedReader bufferedReader) throws IOException {
         String response;
-        try {
-            while ((response = bufferedReader.readLine()) != null) {
-                System.out.println("Server Response: " + response);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        while ((response = bufferedReader.readLine()) != null) {
+            System.out.println("Server Response: " + response);
         }
     }
 }

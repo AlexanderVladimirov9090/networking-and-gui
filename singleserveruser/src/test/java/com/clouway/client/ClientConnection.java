@@ -27,9 +27,9 @@ public class ClientConnection {
     @Test
     public void happyPath() throws IOException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String expected = "Server Response: Hello! " + dateFormat.format(new Date()) + "\n";
-        Server server = new Server(new ServerSocket(6000));
-        Thread serverThread = new Thread(server);
+        String expected = "FakeServer Response: Hello! " + dateFormat.format(new Date()) + "\n";
+        FakeServer fakeServer = new FakeServer(new ServerSocket(6000));
+        Thread serverThread = new Thread(fakeServer);
 
         serverThread.start();
 

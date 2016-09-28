@@ -1,8 +1,6 @@
 package com.clouway.client;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,9 +14,9 @@ import java.util.Date;
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
  */
-public class Server implements Runnable {
+public class FakeServer implements Runnable {
     private final ServerSocket serverSocket;
-    public Server(ServerSocket serverSocket) {
+    public FakeServer(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
 
@@ -27,6 +25,9 @@ public class Server implements Runnable {
             accept();
     }
 
+    /**
+     * Accepts client`s connection.
+     */
    private void accept() {
         try {
             Socket clientSocket = serverSocket.accept();
@@ -36,17 +37,21 @@ public class Server implements Runnable {
         }
     }
 
-    private void respond(Socket clientSocket) {
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+    /**
+     * Responds to client
+     * @param clientSocket used for communication to client.
+     */
+    private void respond(Socket clientSocket) throws IOException {
             PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
-            printWriter.println("Hello! " + clock());
+            printWriter.println("Hello! " + formattedDate());
             clientSocket.close();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
     }
 
-    private String clock() {
+    /**
+     * Return date of connection to te server.
+     * @return formatted date.
+     */
+    private String formattedDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return dateFormat.format(new Date());
     }

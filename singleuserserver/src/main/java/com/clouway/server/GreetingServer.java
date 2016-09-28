@@ -1,8 +1,6 @@
 package com.clouway.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -29,31 +27,40 @@ class GreetingServer implements Runnable {
         accept();
     }
 
+    /**
+     * Accepts client's connection.
+     */
     private void accept() {
-       while (true) {
-           try {
-               Socket clientSocket = serverSocket.accept();
-               respond(clientSocket);
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-       }
-    }
-
-
-    private void respond(Socket clientSocket) {
-        try {
-            PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
-            printWriter.println("Hello! " + clock());
-
-            clientSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        while (true) {
+            try {
+                Socket clientSocket = serverSocket.accept();
+                respond(clientSocket);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private String clock() {
+    /**
+     * Responds to client
+     *
+     * @param clientSocket used for communication to client.
+     */
+    private void respond(Socket clientSocket) throws IOException {
+        PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+        printWriter.println("Hello! " + formattedDate());
+
+        clientSocket.close();
+    }
+
+    /**
+     * Formats Date to given scheme.
+     *
+     * @return Formatted Date.
+     */
+    private String formattedDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
         return dateFormat.format(new Date());
     }
 }
