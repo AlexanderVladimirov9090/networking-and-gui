@@ -4,6 +4,10 @@ package com.cloway.downloadagent;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -16,47 +20,45 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class DownloadFileFromResource {
 
-    private ProgressBar progressBar = (downloadedContent, size) -> System.out.println("Progress: "+ (downloadedContent * 100) / size+"%");
+    private ProgressBar progressBar = (downloadedContent, size) -> System.out.println("Progress: " + (downloadedContent * 100) / size + "%");
+    private Class cls = DownloadFileFromResource.class;
 
     @Test
-    public void happyPath(){
-        String urlString = "file:///home/clouway/workspaces/networking-and-gui/downloadagent/expected/picture-11.jpg";
-        String downloadDir = "/home/clouway/workspaces/networking-and-gui/downloadagent/actual";
+    public void happyPath() throws IOException {
+        URL url = cls.getResource("/actual/12.jpg");
+        URL download = cls.getResource("/expected");
         DownloadAgent downloadAgent = new DownloadAgent(progressBar);
 
-        downloadAgent.download(urlString, downloadDir);
-        File file = new File("/home/clouway/workspaces/networking-and-gui/downloadagent/actual/picture-11.jpg");
+        downloadAgent.download("file://" + url.getFile(), download.getPath());
 
-        assertThat(file.isFile(), is(true));
-    }
+        File actual = new File(download.getPath() + "/12.jpg");
+        File expected = new File(url.getPath());
 
+        byte[] actualBytes = new byte[(int) actual.length()];
+        byte[] expectedBytes = new byte[(int) expected.length()];
+        FileInputStream actualFileInputStream = new FileInputStream(actual);
+        actualFileInputStream.read(actualBytes);
+        actualFileInputStream.close();
+        FileInputStream expectedFileInputStream = new FileInputStream(expected);
+        expectedFileInputStream.read(expectedBytes);
+        expectedFileInputStream.close();
 
-    @Test
-    public void totalSpace(){
-        String urlString = "file:///home/clouway/workspaces/networking-and-gui/downloadagent/expected/picture-11.jpg";
-        String downloadDir = "/home/clouway/workspaces/networking-and-gui/downloadagent/actual";
-        DownloadAgent downloadAgent = new DownloadAgent(progressBar);
-
-        downloadAgent.download(urlString, downloadDir);
-        File expected = new File("/home/clouway/workspaces/networking-and-gui/downloadagent/expected/picture-11.jpg");
-        File actual = new File("/home/clouway/workspaces/networking-and-gui/downloadagent/actual/picture-11.jpg");
-        assertThat(expected.getTotalSpace(), is(equalTo(actual.getTotalSpace())));
+        assertThat(expectedBytes, is(equalTo(actualBytes)));
     }
 
     @Test(expected = UnreachableOrBrokenResource.class)
-    public void emptyResource(){
-        String urlString = "";
-        String downloadDir = "/downloadagent/actual/picture-11.jpg";
+    public void emptyResource() {
+        URL download = cls.getResource("/expected");
         DownloadAgent downloadAgent = new DownloadAgent(progressBar);
-        downloadAgent.download(urlString, downloadDir);
 
+        downloadAgent.download("", download.getPath());
     }
 
     @Test(expected = DownloadDirectoryException.class)
-    public void noDirProvided(){
-        String urlString = "file:///home/clouway/workspaces/networking-and-gui/downloadagent/expected/picture-11.jpg";
-        String downloadDir = "";
+    public void noDirProvided() {
+        URL url = cls.getResource("/actual/12.jpg");
         DownloadAgent downloadAgent = new DownloadAgent(progressBar);
-        downloadAgent.download(urlString, downloadDir);
+
+        downloadAgent.download("file://" + url.getFile(), "");
     }
 }
