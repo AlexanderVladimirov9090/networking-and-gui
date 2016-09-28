@@ -1,4 +1,4 @@
-package com.clouway.echoclient;
+package com.clouway.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
