@@ -1,5 +1,7 @@
 package com.clouway.client;
 
+import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -26,19 +28,17 @@ public class ClientConnection {
 
     @Test
     public void happyPath() throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String expected = "Server Response: Hello! " + dateFormat.format(new Date()) + "\n";
-        FakeServer fakeServer = new FakeServer(new ServerSocket(6000));
+        String expected = "Server Response: Hello! Thu Jan 01 02:00:01 EET 1970\n";
+        FakeServer fakeServer = new FakeServer(new ServerSocket(6000),new Date(1000));
         Thread serverThread = new Thread(fakeServer);
 
         serverThread.start();
 
-        Client client = new Client(InetAddress.getLocalHost(), 6000);
+        Client client = new Client(InetAddress.getLocalHost(), 6000, new RealDisplay());
         PrintStream originalOutput = new PrintStream(System.out);
         OutputStream outStream = new ByteArrayOutputStream();
         PrintStream prStream = new PrintStream(outStream);
         System.setOut(prStream);
-
         client.run();
         prStream.close();
         System.setOut(originalOutput);

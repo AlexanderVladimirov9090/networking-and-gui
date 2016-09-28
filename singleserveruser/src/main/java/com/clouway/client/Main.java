@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 public class Main {
     public static void main(String[] args) {
         try {
-            Client client = new Client(InetAddress.getLocalHost(), 6000);
+            Client client = new Client(InetAddress.getLocalHost(), 6000, new RealDisplay());
             Thread clientThread = new Thread(client);
             clientThread.start();
         } catch (UnknownHostException e) {

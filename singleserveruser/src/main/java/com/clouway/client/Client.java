@@ -13,12 +13,14 @@ import java.net.Socket;
  *         <alexandervladimirov1902@gmail.com>
  */
 class Client implements Runnable {
+    private final Display display;
     private final InetAddress inetAddress;
     private final int port;
 
-    Client(InetAddress inetAddress, int port) {
+    Client(InetAddress inetAddress, int port,Display display) {
         this.inetAddress = inetAddress;
         this.port = port;
+        this.display=display;
     }
 
     @Override
@@ -47,11 +49,7 @@ class Client implements Runnable {
         String response;
 
         while ((response = bufferedReader.readLine()) != null) {
-                display(response);
+                display.display(response);
         }
-    }
-
-    private void display(String response){
-        System.out.println("Server Response: " + response);
     }
 }
