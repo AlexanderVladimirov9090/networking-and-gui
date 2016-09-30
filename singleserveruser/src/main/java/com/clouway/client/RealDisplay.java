@@ -2,10 +2,13 @@ package com.clouway.client;
 
 /**
  * Created by clouway on 28.09.16.
+ * @author Alexander Vladimirov
+ *         <alexandervladimirov1902@gmail.com>
+ * This is concrete implementation for Display interface.
  */
-public class RealDisplay implements Display {
+class RealDisplay implements Display {
     @Override
     public void display(String message) {
-        System.out.println("Server Response: "+ message);
+        System.out.println("Server Response: " + message);
     }
 }

@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.util.Date;
 
 /**
@@ -16,16 +15,16 @@ import java.util.Date;
 public class DisplayServerResponse {
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();
-    Display display = context.mock(Display.class);
+    private Display display = context.mock(Display.class);
+    private FakeServer server = new FakeServer(6000, new Date(1000));
+    private Thread fakeServer = new Thread(server);
 
     @Test
     public void happyPath() throws IOException {
         Client client = new Client(InetAddress.getLocalHost(), 6000, display);
-        FakeServer fakeServer = new FakeServer(new ServerSocket(6000), new Date(1000));
-        Thread thread = new Thread(fakeServer);
-        thread.start();
+        fakeServer.start();
         context.checking(new Expectations() {{
-            oneOf(display).display("Hello! Thu Jan 01 02:00:01 EET 1970");
+            oneOf(display).display("Thu Jan 01 02:00:01 EET 1970");
         }});
         client.run();
     }
