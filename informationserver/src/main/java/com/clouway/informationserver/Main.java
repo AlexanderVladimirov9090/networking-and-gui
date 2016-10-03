@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         GreetingServer greetingServer = null;
         try {
-            greetingServer = new GreetingServer(new ServerSocket(6000), new LinkedList(), new LinkedList());
+            greetingServer = new GreetingServer(new ServerSocket(6000), new LinkedList());
             Thread thread = new Thread(greetingServer);
             thread.start();
         } catch (IOException e) {

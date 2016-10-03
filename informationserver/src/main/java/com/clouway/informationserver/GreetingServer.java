@@ -14,12 +14,11 @@ import java.util.List;
  */
 public class GreetingServer implements Runnable {
     private final ServerSocket serverSocket;
-    private final OnlineClients onlineClients;
+
     private final SocketAgent socketAgent;
 
-    GreetingServer(ServerSocket serverSocket, List onlineClients, List<Socket> clientSockets) {
+    GreetingServer(ServerSocket serverSocket, List<Socket> clientSockets) {
         this.serverSocket = serverSocket;
-        this.onlineClients = new OnlineClients(onlineClients);
         this.socketAgent = new SocketAgent(clientSockets);
     }
 
@@ -44,8 +43,7 @@ public class GreetingServer implements Runnable {
 
         try {
             Socket clientSocket = serverSocket.accept();
-            onlineClients.putClient();
-            respond("",clientSocket);
+            respond("You are client number: ", clientSocket);
             socketAgent.put(clientSocket);
 
         } catch (IOException e) {
@@ -59,18 +57,17 @@ public class GreetingServer implements Runnable {
      *
      * @param clientSocket used for communication to client.
      */
-    private void respond(String message,Socket clientSocket) throws IOException {
+    private void respond(String message, Socket clientSocket) throws IOException {
         PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
-        printWriter.println(message+ ": " + onlineClients.count());
+        printWriter.println(message + socketAgent.getSockets().size());
 
     }
 
     private void notifyAllClients() throws IOException {
 
-        for (Socket each : socketAgent.getSockets()) {
-            PrintWriter printWriter = new PrintWriter(each.getOutputStream(), true);
-            printWriter.println("Number of clients Online: " + onlineClients.count());
-
+        for (int i = 0; i < socketAgent.getSockets().size() - 1; i++) {
+            respond("Number of clients online: ", socketAgent.getSockets().get(i));
         }
     }
+
 }
