@@ -5,6 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/DownloadAgent.iml" filepath="$PROJECT_DIR$/.idea/modules/DownloadAgent.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/DownloadAgent_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DownloadAgent_main.iml" group="DownloadAgent" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/DownloadAgent_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DownloadAgent_test.iml" group="DownloadAgent" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/informationserver.iml" filepath="$PROJECT_DIR$/.idea/modules/informationserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/informationserver_main.iml" filepath="$PROJECT_DIR$/.idea/modules/informationserver_main.iml" group="informationserver" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/informationserver_test.iml" filepath="$PROJECT_DIR$/.idea/modules/informationserver_test.iml" group="informationserver" />
       <module fileurl="file://$PROJECT_DIR$/.idea/networking-and-gui.iml" filepath="$PROJECT_DIR$/.idea/networking-and-gui.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/singleserveruser.iml" filepath="$PROJECT_DIR$/.idea/modules/singleserveruser.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/singleserveruser_main.iml" filepath="$PROJECT_DIR$/.idea/modules/singleserveruser_main.iml" group="singleserveruser" />
