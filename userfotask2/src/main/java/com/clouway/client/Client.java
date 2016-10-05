@@ -34,11 +34,18 @@ class Client implements Runnable {
     private void connect() {
         try (Socket clientSocket = new Socket(inetAddress, port)) {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            listen(bufferedReader);
+            while (true) {
+                listen(bufferedReader);
+                if (clientSocket.isConnected()){
+                    throw new NoSocketException("Server is shutdown.");
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * Listens to server response and prints in to the console.

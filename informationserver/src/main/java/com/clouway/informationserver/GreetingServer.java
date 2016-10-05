@@ -17,8 +17,8 @@ public class GreetingServer implements Runnable {
 
     private final SocketAgent socketAgent;
 
-    GreetingServer(ServerSocket serverSocket, List<Socket> clientSockets) {
-        this.serverSocket = serverSocket;
+    GreetingServer(int port, List<Socket> clientSockets) throws IOException {
+        this.serverSocket = new ServerSocket(port);
         this.socketAgent = new SocketAgent(clientSockets);
     }
 
@@ -69,5 +69,4 @@ public class GreetingServer implements Runnable {
             respond("Number of clients online: ", socketAgent.getSockets().get(i));
         }
     }
-
 }

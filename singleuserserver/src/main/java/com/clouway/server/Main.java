@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 public class Main {
     public static void main(String[] args) {
         try {
+            System.out.println("Server started...");
             GreetingServer greetingServer = new GreetingServer(new ServerSocket(6000));
             Thread thread = new Thread(greetingServer);
             thread.start();
