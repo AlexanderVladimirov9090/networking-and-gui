@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.util.LinkedList;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -21,7 +20,7 @@ public class GreetingServerTest {
 
     @Test
     public void happyPath() throws IOException{
-        GreetingServer greetingServer = new GreetingServer(6070, new LinkedList<>());
+        GreetingServer greetingServer = new GreetingServer(6070, new LinkedList<>(), bufferedReader);
         Thread serverTread = new Thread(greetingServer);
         FakeClient fakeClient = new FakeClient(InetAddress.getLocalHost(), 6070);
 

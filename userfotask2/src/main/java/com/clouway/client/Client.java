@@ -1,8 +1,6 @@
 package com.clouway.client;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -25,39 +23,24 @@ class Client implements Runnable {
 
     @Override
     public void run() {
-        connect();
+        try {
+            connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
      * Connects to given server.
      */
-    private void connect() {
-        try (Socket clientSocket = new Socket(inetAddress, port)) {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            while (true) {
-                listen(bufferedReader);
-                if (clientSocket.isConnected()){
-                    throw new NoSocketException("Server is shutdown.");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    /**
-     * Listens to server response and prints in to the console.
-     *
-     * @param bufferedReader
-     * @throws IOException
-     */
-    private void listen(BufferedReader bufferedReader) throws IOException {
-        String response;
-
-        while ((response = bufferedReader.readLine()) != null) {
-            display.display(response);
-        }
+    private void connect() throws IOException {
+        Socket clientSocket = new Socket(inetAddress,port);
+        ServerInputMonitor serverInputMonitor = new ServerInputMonitor(clientSocket, display);
+        Thread inputServerMonitorT = new Thread(serverInputMonitor);
+        inputServerMonitorT.start();
+        ClientOutputMonitor clientOutputMonitor = new ClientOutputMonitor(clientSocket);
+        Thread clientOutputMonitorT = new Thread(clientOutputMonitor);
+        clientOutputMonitorT.start();
     }
 }
