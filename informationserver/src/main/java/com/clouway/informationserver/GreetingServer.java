@@ -26,18 +26,17 @@ public class GreetingServer implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            accept();
-            try {
-                notifyAllClients();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            synchronized (List.class) {
-                Thread streamThread = new Thread(new StreamMonitor(socketAgent, display));
-                streamThread.start();
+        synchronized (socketAgent){
+            Thread streamThread = new Thread(new StreamMonitor(socketAgent, display));
+            streamThread.start();
+            while (true) {
+                accept();
+                try {
+                    notifyAllClients();
+                streamThread.interrupt();
+                } catch (IOException e) {
 
-
+                }
             }
         }
     }
