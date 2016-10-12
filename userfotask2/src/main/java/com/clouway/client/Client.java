@@ -25,6 +25,7 @@ class Client implements Runnable {
     public void run() {
         try {
             connect();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,12 +36,16 @@ class Client implements Runnable {
      * Connects to given server.
      */
     private void connect() throws IOException {
-        Socket clientSocket = new Socket(inetAddress,port);
+        Socket clientSocket = new Socket(inetAddress, port);
         ServerInputMonitor serverInputMonitor = new ServerInputMonitor(clientSocket, display);
         Thread inputServerMonitorT = new Thread(serverInputMonitor);
         inputServerMonitorT.start();
         ClientOutputMonitor clientOutputMonitor = new ClientOutputMonitor(clientSocket);
         Thread clientOutputMonitorT = new Thread(clientOutputMonitor);
         clientOutputMonitorT.start();
+        while (!(clientSocket.getOutputStream() ==null)){
+
+        }
+        throw new NoSocketException("we");
     }
 }

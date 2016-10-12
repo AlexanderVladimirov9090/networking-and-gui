@@ -37,7 +37,6 @@ public class ClientOutputMonitor implements Runnable {
         String response = bufferedReader.readLine();
         PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
         printWriter.println(response);
-        printWriter.println("");
     }
 }
 

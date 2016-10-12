@@ -15,25 +15,27 @@ import java.util.List;
 public class GreetingServer implements Runnable {
     private final ServerSocket serverSocket;
     private final SocketAgent socketAgent;
-    private final Thread streamMonitor;
+    private final Display display;
 
     GreetingServer(int port, List sockets, Display display) throws IOException {
         this.serverSocket = new ServerSocket(port);
         this.socketAgent = new SocketAgent(sockets);
-        this.streamMonitor = new Thread(new StreamMonitor(socketAgent, display));
+        this.display = display;
     }
 
 
     @Override
     public void run() {
-    streamMonitor.start();
+
         while (true) {
 
             try {
 
                 accept();
                 notifyAllClients();
-
+                StreamMonitor streamMonitor = new StreamMonitor(socketAgent,display);
+                Thread  streamMT= new Thread(streamMonitor);
+                streamMT.start();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -59,12 +61,11 @@ public class GreetingServer implements Runnable {
     private void respond(String message, Socket clientSocket) throws IOException {
         PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
         printWriter.println(message + socketAgent.getSockets().size());
-        printWriter.flush();
     }
 
     private void notifyAllClients() throws IOException {
 
-        for (int i = 0; i < socketAgent.getSockets().size() - 1; i++) {
+        for (int i = 0; i < socketAgent.getSockets().size(); i++) {
             respond("Number of clients: ", socketAgent.getSockets().get(i));
         }
     }

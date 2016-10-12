@@ -33,7 +33,9 @@ public class ServerInputMonitor implements Runnable {
     private void listen() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String response;
+
         while ((response = bufferedReader.readLine()) != null) {
+
             display.display(response);
         }
     }

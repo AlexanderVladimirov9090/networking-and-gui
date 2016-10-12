@@ -20,7 +20,7 @@ public class GreetingServerTest {
 
     @Test
     public void happyPath() throws IOException{
-        GreetingServer greetingServer = new GreetingServer(6070, new LinkedList<>(), bufferedReader, streamMon1);
+        GreetingServer greetingServer = new GreetingServer(6070, new LinkedList<>(),new RealDisplay());
         Thread serverTread = new Thread(greetingServer);
         FakeClient fakeClient = new FakeClient(InetAddress.getLocalHost(), 6070);
 
@@ -28,6 +28,6 @@ public class GreetingServerTest {
         fakeClient.connect();
         String actual = fakeClient.getResponse();
 
-        assertThat(actual, is(equalTo("nullYou are client number: 0")));
+        assertThat(actual, is(equalTo("nullYou are client number: 1")));
     }
 }
