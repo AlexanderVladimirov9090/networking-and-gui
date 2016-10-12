@@ -23,9 +23,7 @@ class FakeServer implements Runnable {
 
     @Override
     public void run() {
-
         accept();
-
     }
 
     /**
@@ -35,10 +33,8 @@ class FakeServer implements Runnable {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             Socket clientSocket = serverSocket.accept();
-
-                respond(clientSocket);
-
-            } catch (IOException e) {
+            respond(clientSocket);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -52,6 +48,5 @@ class FakeServer implements Runnable {
         PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
         printWriter.println(date.toString());
         clientSocket.close();
-
     }
 }

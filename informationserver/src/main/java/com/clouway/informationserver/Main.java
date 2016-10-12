@@ -11,12 +11,12 @@ import java.util.LinkedList;
  */
 public class Main {
     public static void main(String[] args) {
-        GreetingServer greetingServer = null;
         try {
             System.out.println("Server started...");
-            greetingServer = new GreetingServer(6000, new LinkedList(), new RealDisplay());
-            Thread thread = new Thread(greetingServer);
-            thread.start();
+            GreetingServer greetingServer = new GreetingServer(7000, new LinkedList(), new RealDisplay());
+            Thread greetingServeT = new Thread(greetingServer);
+            greetingServeT.start();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
