@@ -1,9 +1,8 @@
-package com.clouway.informationserver;
+package com.clouway.clientcomunicationserver;
 
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
  * Created by clouway on 03.10.16.
@@ -12,6 +11,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
  *         <alexandervladimirov1902@gmail.com>
  * This class is used for savekeeping clients sockets.
  */
+
 public class  SocketAgent {
     private final List<Socket> sockets;
 

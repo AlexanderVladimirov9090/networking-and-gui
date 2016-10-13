@@ -1,4 +1,4 @@
-package com.clouway.informationserver;
+package com.clouway.clientcomunicationserver;
 
 import java.io.IOException;
 import java.io.PrintWriter;

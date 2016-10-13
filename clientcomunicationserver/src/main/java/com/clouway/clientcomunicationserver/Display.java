@@ -1,4 +1,4 @@
-package com.clouway.informationserver;
+package com.clouway.clientcomunicationserver;
 
 /**
  * Created by clouway on 28.09.16.

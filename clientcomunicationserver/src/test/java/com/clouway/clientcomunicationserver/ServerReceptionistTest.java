@@ -1,4 +1,4 @@
-package com.clouway.informationserver;
+package com.clouway.clientcomunicationserver;
 
 import org.junit.Test;
 
