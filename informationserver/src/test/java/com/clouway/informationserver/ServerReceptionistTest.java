@@ -16,18 +16,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
  */
-public class GreetingServerTest {
+public class ServerReceptionistTest {
 
     @Test
     public void happyPath() throws IOException{
-        GreetingServer greetingServer = new GreetingServer(6070, new LinkedList<>(),new RealDisplay());
-        Thread serverTread = new Thread(greetingServer);
-        FakeClient fakeClient = new FakeClient(InetAddress.getLocalHost(), 6070);
-
+        ServerReceptionist serverReceptionist = new ServerReceptionist(6070, new LinkedList<>(),new RealDisplay());
+        Thread serverTread = new Thread(serverReceptionist);
+        FakeClient fakeClient = new FakeClient(InetAddress.getLocalHost(), 6070, "");
+        String expected = "nullYou are client number: 1Number of clients: 1";
         serverTread.start();
         fakeClient.connect();
         String actual = fakeClient.getResponse();
 
-        assertThat(actual, is(equalTo("nullYou are client number: 1")));
+        assertThat(actual, is(equalTo(expected)));
     }
 }

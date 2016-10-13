@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Date;
 
 /**
@@ -22,6 +23,18 @@ public class DisplayServerResponse {
 
     @Test
     public void happyPath() throws IOException {
+        fakeServer.start();
+        Socket socket = new Socket(InetAddress.getLocalHost(), 6000);
+        ServerInputMonitor serverInputMonitor = new ServerInputMonitor(socket,display);
+        context.checking(new Expectations() {{
+            oneOf(display).display("Thu Jan 01 02:00:01 EET 1970");
+
+        }});
+        serverInputMonitor.run();
+    }
+
+    @Test(expected = NoSocketException.class)
+    public void serverDown() throws IOException {
         fakeServer.start();
         Socket socket = new Socket(InetAddress.getLocalHost(), 6000);
         ServerInputMonitor serverInputMonitor = new ServerInputMonitor(socket,display);

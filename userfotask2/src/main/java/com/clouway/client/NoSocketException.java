@@ -5,11 +5,11 @@ package com.clouway.client;
  *
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
+ * This exceptions is thrown when server stops responding to client.
  */
-public class NoSocketException extends RuntimeException {
+class NoSocketException extends RuntimeException {
 
-    public NoSocketException(String message){
+    NoSocketException(String message){
         super(message);
-
     }
 }

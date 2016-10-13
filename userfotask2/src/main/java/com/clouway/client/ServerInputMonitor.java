@@ -10,33 +10,41 @@ import java.net.Socket;
  *
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
+ * This class is used to listen and send to display server respons.
  */
-public class ServerInputMonitor implements Runnable {
+class ServerInputMonitor implements Runnable {
     private final Display display;
     private final Socket clientSocket;
 
-    public ServerInputMonitor(Socket clientSocket, Display display) {
+    ServerInputMonitor(Socket clientSocket, Display display) {
         this.display = display;
         this.clientSocket = clientSocket;
 
     }
 
     @Override
-    public void run() {
-        try {
-            listen();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void run() throws NoSocketException {
+        while(true) {
+            try {
+                listen();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void listen() throws IOException {
+    /**
+     * Listens to server response and send it to display.
+     * @throws IOException
+     */
+    private synchronized void listen() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String response;
+        response = bufferedReader.readLine();
 
-        while ((response = bufferedReader.readLine()) != null) {
-
-            display.display(response);
+        if (response == null) {
+            throw new NoSocketException("Server down");
         }
+        display.display(response);
     }
-}
+    }

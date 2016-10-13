@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
  *
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
+ * This class is used for savekeeping clients sockets.
  */
 public class  SocketAgent {
     private final List<Socket> sockets;
@@ -24,8 +25,5 @@ public class  SocketAgent {
 
     public synchronized List<Socket> getSockets(){
         return new LinkedList<>(sockets);
-
     }
-
-
 }

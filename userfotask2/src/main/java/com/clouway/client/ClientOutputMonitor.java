@@ -11,27 +11,31 @@ import java.net.Socket;
  *
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
+ * This class is used to respond to server.
  */
-public class ClientOutputMonitor implements Runnable {
+class ClientOutputMonitor implements Runnable {
     private final Socket clientSocket;
 
-
-    public ClientOutputMonitor(Socket clientSocket) {
+    ClientOutputMonitor(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
-
 
     @Override
     public void run() {
         try {
             while (true) {
                 respond();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Respond to server by console.
+     * @throws IOException
+     */
     private void respond() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         String response = bufferedReader.readLine();
@@ -39,4 +43,3 @@ public class ClientOutputMonitor implements Runnable {
         printWriter.println(response);
     }
 }
-

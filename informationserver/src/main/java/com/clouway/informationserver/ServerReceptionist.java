@@ -11,18 +11,18 @@ import java.util.List;
  *
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
+ *         This class accepts connection from client and greets it by response.
  */
-public class GreetingServer implements Runnable {
+public class ServerReceptionist implements Runnable {
     private final ServerSocket serverSocket;
     private final SocketAgent socketAgent;
     private final Display display;
 
-    GreetingServer(int port, List sockets, Display display) throws IOException {
+    ServerReceptionist(int port, List sockets, Display display) throws IOException {
         this.serverSocket = new ServerSocket(port);
         this.socketAgent = new SocketAgent(sockets);
         this.display = display;
     }
-
 
     @Override
     public void run() {
@@ -33,14 +33,13 @@ public class GreetingServer implements Runnable {
 
                 accept();
                 notifyAllClients();
-                StreamMonitor streamMonitor = new StreamMonitor(socketAgent,display);
-                Thread  streamMT= new Thread(streamMonitor);
+                ClientInputMonitor clientInputMonitor = new ClientInputMonitor(socketAgent, display);
+                Thread streamMT = new Thread(clientInputMonitor);
                 streamMT.start();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -54,7 +53,7 @@ public class GreetingServer implements Runnable {
     }
 
     /**
-     * Responds to client
+     * Responds to client by sending what number it is in the system.
      *
      * @param clientSocket used for communication to client.
      */
@@ -63,6 +62,11 @@ public class GreetingServer implements Runnable {
         printWriter.println(message + socketAgent.getSockets().size());
     }
 
+    /**
+     * Notify all clients that new one is connected to server.
+     *
+     * @throws IOException
+     */
     private void notifyAllClients() throws IOException {
 
         for (int i = 0; i < socketAgent.getSockets().size(); i++) {

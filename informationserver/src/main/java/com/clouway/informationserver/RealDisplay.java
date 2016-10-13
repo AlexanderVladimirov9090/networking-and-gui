@@ -2,10 +2,12 @@ package com.clouway.informationserver;
 
 /**
  * Created by clouway on 28.09.16.
+ *
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
- * This is concrete implementation for Display interface.
+ *         This is concrete implementation for Display interface.
  */
+
 class RealDisplay implements Display {
     @Override
     public void display(String message) {

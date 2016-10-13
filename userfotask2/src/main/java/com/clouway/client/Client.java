@@ -9,6 +9,7 @@ import java.net.Socket;
  *
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
+ *         This is a basic input output client for server.
  */
 class Client implements Runnable {
     private final Display display;
@@ -23,19 +24,18 @@ class Client implements Runnable {
 
     @Override
     public void run() {
+
         try {
             connect();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
-     * Connects to given server.
+     * Connects to given server and then new threads are created for input to server and output from it.
      */
-    private void connect() throws IOException {
+    private void connect() throws IOException{
         Socket clientSocket = new Socket(inetAddress, port);
         ServerInputMonitor serverInputMonitor = new ServerInputMonitor(clientSocket, display);
         Thread inputServerMonitorT = new Thread(serverInputMonitor);
@@ -43,9 +43,5 @@ class Client implements Runnable {
         ClientOutputMonitor clientOutputMonitor = new ClientOutputMonitor(clientSocket);
         Thread clientOutputMonitorT = new Thread(clientOutputMonitor);
         clientOutputMonitorT.start();
-        while (!(clientSocket.getOutputStream() ==null)){
-
-        }
-        throw new NoSocketException("we");
     }
 }

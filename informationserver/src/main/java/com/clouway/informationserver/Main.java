@@ -13,8 +13,8 @@ public class Main {
     public static void main(String[] args) {
         try {
             System.out.println("Server started...");
-            GreetingServer greetingServer = new GreetingServer(7000, new LinkedList(), new RealDisplay());
-            Thread greetingServeT = new Thread(greetingServer);
+            ServerReceptionist serverReceptionist = new ServerReceptionist(7000, new LinkedList(), new RealDisplay());
+            Thread greetingServeT = new Thread(serverReceptionist);
             greetingServeT.start();
 
         } catch (IOException e) {
