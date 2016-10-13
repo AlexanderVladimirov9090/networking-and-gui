@@ -43,6 +43,7 @@ class ServerInputMonitor implements Runnable {
         response = bufferedReader.readLine();
 
         if (response == null) {
+            clientSocket.close();
             throw new NoSocketException("Server down");
         }
         display.display(response);

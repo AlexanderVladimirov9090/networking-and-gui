@@ -28,7 +28,7 @@ class ClientOutputMonitor implements Runnable {
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new NoSocketException("Server is down");
         }
     }
 
