@@ -1,9 +1,12 @@
 package com.cloway.downloadagent;
 
-import com.sun.jndi.toolkit.url.Uri;
-
-import java.io.*;
-import java.net.*;
+import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Created by clouway on 13.09.16.
@@ -33,13 +36,11 @@ public class DownloadAgent {
             String fileName = url.getFile().substring(url.getFile().lastIndexOf("/"));
             BufferedInputStream bis = new BufferedInputStream(url.openStream());
             FileOutputStream fis = new FileOutputStream(downloadPath + fileName);
-
             long sizeOfFile = urlConnection.getContentLength();
             long progress = 0;
             int percentage = getPercentage(urlConnection.getContentLength());
             byte[] buffer = new byte[percentage];
             int count = 0;
-
 
             while ((count = bis.read(buffer, 0, percentage)) != -1) {
                 fis.write(buffer, 0, count);
@@ -59,6 +60,6 @@ public class DownloadAgent {
 
     private int getPercentage(long sizeOfFile) {
 
-        return (int) (sizeOfFile/ 100);
+        return (int) (sizeOfFile / 100);
     }
 }

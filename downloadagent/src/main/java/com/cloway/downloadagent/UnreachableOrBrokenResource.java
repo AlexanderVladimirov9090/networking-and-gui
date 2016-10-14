@@ -8,7 +8,6 @@ package com.cloway.downloadagent;
  *         This exception is thrown when resoutce is unrechable or broken.
  */
 public class UnreachableOrBrokenResource extends RuntimeException {
-
     UnreachableOrBrokenResource(String massage) {
         super(massage);
     }
