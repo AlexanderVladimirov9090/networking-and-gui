@@ -13,9 +13,8 @@ import java.io.InputStreamReader;
  */
 public class ClientInputMonitor implements Runnable {
     private final SocketAgent socketAgent;
-    private BufferedReader bufferedReader;
     private final Display display;
-
+    private boolean running = true;
 
     public ClientInputMonitor(SocketAgent socketAgent, Display display) {
         this.socketAgent = socketAgent;
@@ -25,12 +24,16 @@ public class ClientInputMonitor implements Runnable {
     @Override
     public void run() {
         try {
-            while (true) {
+            while (running) {
                 readFromClients();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void shudown() {
+        running = false;
     }
 
     /**
@@ -40,7 +43,7 @@ public class ClientInputMonitor implements Runnable {
      */
     private void readFromClients() throws IOException {
         int numberOfClient = socketAgent.getSockets().size();
-        bufferedReader = new BufferedReader(new InputStreamReader(socketAgent.getSockets().get(--numberOfClient).getInputStream()));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socketAgent.getSockets().get(--numberOfClient).getInputStream()));
         String response;
         response = bufferedReader.readLine();
         if (response != null) {

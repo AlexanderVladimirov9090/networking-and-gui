@@ -61,6 +61,7 @@ class FakeClient {
     private void respond(Socket socket) throws IOException {
         PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
         printWriter.println(messageToServer);
+
     }
 
     String getResponse() {

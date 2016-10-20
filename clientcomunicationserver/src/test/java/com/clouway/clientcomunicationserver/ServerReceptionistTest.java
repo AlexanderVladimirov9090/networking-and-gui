@@ -23,7 +23,7 @@ public class ServerReceptionistTest {
         ServerReceptionist serverReceptionist = new ServerReceptionist(6070, new LinkedList<>(),new RealDisplay());
         Thread serverTread = new Thread(serverReceptionist);
         FakeClient fakeClient = new FakeClient(InetAddress.getLocalHost(), 6070, "");
-        String expected = "nullYou are client number: 1Number of clients: 1";
+        String expected = "nullYou are client number: 1";
         serverTread.start();
         fakeClient.connect();
         String actual = fakeClient.getResponse();

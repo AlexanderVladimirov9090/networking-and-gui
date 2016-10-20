@@ -7,17 +7,18 @@ import java.net.Socket;
 import java.util.Date;
 
 /**
- * Created by clouway on 15.09.16.
+ * Created by clouway on 14.10.16.
  *
  * @author Alexander Vladimirov
  *         <alexandervladimirov1902@gmail.com>
  */
-class FakeServer implements Runnable {
+public class FakeServerSecond implements Runnable{
     private final int port;
     private final Date date;
+    private Socket clientSocket;
 
-    FakeServer(int port, Date date){
-        this.port=port;
+    public FakeServerSecond(int port, Date date) {
+        this.port = port;
         this.date = date;
     }
 
@@ -32,9 +33,11 @@ class FakeServer implements Runnable {
     private void accept() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            Socket clientSocket = serverSocket.accept();
-            respond(clientSocket);
-        } catch (IOException e) {
+            clientSocket = serverSocket.accept();
+            respond();
+            serverSocket.close();
+            serverSocket.close();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -42,11 +45,11 @@ class FakeServer implements Runnable {
     /**
      * Responds to client
      *
-     * @param clientSocket used for communication to client.
      */
-    private void respond(Socket clientSocket) throws IOException {
+    private void respond() throws IOException, InterruptedException {
         PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
         printWriter.println(date.toString());
-        clientSocket.close();
+        printWriter.println();
+
     }
 }

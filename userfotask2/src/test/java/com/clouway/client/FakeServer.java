@@ -15,9 +15,10 @@ import java.util.Date;
 class FakeServer implements Runnable {
     private final int port;
     private final Date date;
+    private Socket clientSocket;
 
-    FakeServer(int port, Date date){
-        this.port=port;
+    FakeServer(int port, Date date) {
+        this.port = port;
         this.date = date;
     }
 
@@ -32,9 +33,13 @@ class FakeServer implements Runnable {
     private void accept() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            Socket clientSocket = serverSocket.accept();
-            respond(clientSocket);
+            clientSocket = serverSocket.accept();
+            respond();
+            serverSocket.close();
+
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -42,9 +47,8 @@ class FakeServer implements Runnable {
     /**
      * Responds to client
      *
-     * @param clientSocket used for communication to client.
      */
-    private void respond(Socket clientSocket) throws IOException {
+    private void respond() throws IOException, InterruptedException {
         PrintWriter printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
         printWriter.println(date.toString());
         clientSocket.close();
